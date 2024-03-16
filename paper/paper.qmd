@@ -60,7 +60,9 @@ The diagonal in @fig-comparisone helps visualize the data. If the data were foun
 #| warning: false
 #| message: false
 
-frankenstein_reduced <- read_csv("../data/analysis_data/frankenstein.csv")
+library(arrow)
+
+frankenstein_reduced <- read_parquet("../data/analysis_data/frankenstein.parquet")
 
 mean_e <- mean(frankenstein_reduced$count_e)
 variance_e <- var(frankenstein_reduced$count_e)
@@ -172,65 +174,21 @@ plot_predictions(first_model, condition = "word_count") +
 
 # Discussion
 
-## First discussion point {#sec-first-point}
+## Findings
+The analysis conducted in this study found that as the number of words increases, the number of occurrences of the letter ‘e’/‘E’ increases as well. These findings were expected considering that the letter ‘e’/‘E’ is the most used letter in the English alphabet [@EFrequency]. 
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+## Importance
 
-## Second discussion point
 
-## Third discussion point
+## Weaknesses
+
+## Future Proceedings
 
 ## Weaknesses and next steps
 
 Weaknesses and next steps should also be included.
 
-\newpage
-
-\appendix
-
-# Appendix {-}
-
-
-# Additional data details
-
-# Model details {#sec-model-details}
-
-## Posterior predictive check
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
-
-```{r}
-
-```
-
-## Diagnostics
-
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
-
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
-
-plot(first_model, "trace")
-
-plot(first_model, "rhat")
-```
-
-
 
 \newpage
-
 
 # References
-
-

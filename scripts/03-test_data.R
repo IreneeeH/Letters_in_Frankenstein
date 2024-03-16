@@ -11,7 +11,7 @@ library(tidyverse)
 
 #### Test data ####
 
-frankenstein_test <- read.csv("data/analysis_data/frankenstein.csv")
+frankenstein_test <- read_csv("data/analysis_data/frankenstein.csv")
 
 # Checking that there are exactly 23 chapters
 (frankenstein_test$chapter |> length())/10 == 23

@@ -8,6 +8,7 @@
 
 #### Workspace setup ####
 library(tidyverse)
+library(arrow)
 
 #### Clean data ####
 frankenstein <- read_csv(
@@ -50,3 +51,4 @@ frankenstein_reduced |>
 
 #### Save data ####
 write_csv(frankenstein_reduced, "data/analysis_data/frankenstein.csv")
+write_parquet(frankenstein_reduced, "data/analysis_data/frankenstein.parquet")

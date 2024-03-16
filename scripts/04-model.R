@@ -11,7 +11,7 @@ library(tidyverse)
 library(rstanarm)
 
 #### Read data ####
-frankenstein_reduced <- read_csv("data/analysis_data/frankenstein.csv")
+frankenstein_reduced <- read_parquet("data/analysis_data/frankenstein.parquet")
 
 ### Model data ####
 frankenstein_e_counts <-
