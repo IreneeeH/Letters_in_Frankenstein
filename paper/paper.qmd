@@ -1,14 +1,14 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "An Analysis of the distribution of the letter 'e'/'E' in Mary Shelley's Frankenstein"
 author: 
-  - First author
-  - Another author
+  - Irene Huynh
 thanks: "Code and data are available at: LINK."
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
-format: pdf
+abstract: "This paper analyzes the frequency and distribution of the letter ‘e’/‘E’ in the English literature classic, Frankenstein by Mary Shelley. Utilizing data from Project Gutenberg, the study examines the occurrences of the letter ‘e’/‘E’ in the first ten lines of each chapter to gauge whether the amount of ‘e’/‘E’s found in the text increases as more words are used. I find that the letter ‘e’/‘E’ usage does increase as the number of words increase. Our findings and methodologies may be employed by linguists to build on or corroborate existing data on letter frequency in the English language, by cryptographers to aid in the deciphering of classical or simple substitution ciphers, and by keyboard designers."
+format: 
+  pdf:
+    fig-pos: 'H'
 number-sections: true
 bibliography: references.bib
 ---
@@ -24,71 +24,107 @@ library(tidyverse)
 
 # Introduction
 
-The English language has evolved a great deal over centuries and studying its evolution can give insight into the people who use it. Linguists are concerned with studying languages as a science; they observe and listen to speakers, conduct experiments, and perform analyses of languages to investigate the properties and characteristics of particular languages. Linguists may study the frequency of letter usage for a basic understanding of the particular writing system adopted by a language, whether it be syllabic, ideographic, or alphabetic. Additionally, the frequency of letters may vary from language to language and such information is of interest to cryptographers, keyboard designers, game creators.
+Frankenstein by Mary Shelley combines Gothic horror story and science fiction elements to chronicle the life of Victor Frankenstein and his monstrous creation. The novel was first released in 1818 to unfavorable critiques, but has since solidified itself as a cult classic in literature and icon in pop culture [@InitialReception]. This drastic change in reception is on account of Universal Studios’ 1931 horror film adaptation of the novel, bringing Frankenstein’s monster to life [@Popularity]. The film’s depiction of the creature with bolts protruding from its neck and a square-shaped head continues to be one of the most recognizable movie monsters [@Popularity]. According to Penguin Random House, the top publishing company as of 2024, Mary Shelley’s Frankenstein is one of the top twenty must-read classics, as chosen by their readers [@Penguin]. Thus, analyzing this text can be of great use for studying the English language.
+
+The English language has evolved a great deal over centuries and investigating its evolution can give insight into the people who use it. Linguists are concerned with studying languages as a science; they observe and listen to speakers, conduct experiments, and perform analyses of languages to investigate the properties and characteristics of particular languages [@Linguists]. Linguists may study the frequency of letter usage for a basic understanding of the particular writing system adopted by a language, whether it be syllabic, ideographic, or alphabetic [@Linguists]. According to a study analyzing the occurrences of letters in words in the Concise Oxford Dictionary’s (9th edition, 1995) main entries, the letter ‘e’/‘E’ appears 11.1607% of the time in all words, the highest frequency out of the entire English alphabet [@EFrequency]. The frequency of letters may vary from language to language and such information is of interest to cryptographers, keyboard designers, and alphabet-based game creators [@LetterAnalysis]. Cryptographers use letter frequency data to break classical or simple substitution ciphers [@Cipher]. By being cognizant of the frequency of letters in a particular language, cryptographers can correlate the distribution of letters in the substituted cipher with the actual distribution of letters in the language to ultimately match each letter with its substitute and break the cipher [@Cipher]. Moreover, keyboard designers rely on the frequency of letters to determine the location of keys on the keyboard [@LetterAnalysis]. 
+
+In this paper, I analyze the frequency of the letter ‘e’/‘E’ and the number of words in the first ten lines of each chapter in Mary Shelley’s Frankenstein to produce a predictive model that determines whether the number of ‘e’/‘E’s increase as more words are used. The estimand for this study is the effect of the number of words used on the number of times ‘e’/‘E’ appears. This study finds that as the number of words used increases, the frequency of the letter ‘e’/‘E’ also increases. 
+
+The remainder of this paper is structured as follows: the Data section details the collection
+and processing of Mary Shelley’s Frankenstein text data. Additionally, the section includes discussion on the measurement of the original dataset. The following Results section displays and analyzes tables and figures that model the data. The Discussion section draws conclusions from those tables and figures and details the importance of my findings and weaknesses of the paper.
+
+
+# Data
+
+## Source
+The data utilized in this paper was retrieved from Project Gutenberg [@ProjectGutenberg]. The statistical programming language R was used to retrieve, clean, and process the data [@citeR]. In particular, the following R packages were used: `gutenbergr` [@ProjectGutenberg] and `tidyverse` [@tidyverse] for data acquisition, cleaning, and processing; `rstanarm` [@rstanarm] and `marginaleffects` [@marginaleffects] for model creations, and `ggplot2` [@ggplot2] for creating figures.
+
+## Measurement
+The original data set was retrieved from Project Gutenberg [@ProjectGutenberg], which is a reliable and reputable source for eBooks and other electronic texts. As the data I am concerned with was collected and cataloged from an existing novel of text, there is a low possibility for measurement error; however, possible avenues for the introduction of errors would be in the archiving of the novel by software bugs or technological malfunctions. Additionally, the digitized copy of Frankenstein was last updated in 2022 by Project Gutenberg. Considering that digital book scanning software as of recent years is considered highly sophisticated [@Digitalize] and that Project Gutenberg has digitized over 70,000 books, the quality of the data used in this study is reliable.
+
+## Examined Variables
+The original data set consists of all text in Mary Shelley’s Frankenstein, including the title page, preface text, and inclusions such as letters. The main variable of interest is the frequency of the letter ‘e’/‘E’ in the novel. An analysis using each line in the entire novel would be ideal; however, such a task would be cumbersome. Thus, I will only focus on the frequency of the letter ‘e’/‘E’ in the first ten lines of each chapter. 
+
+Figure 1 verifies that the mean and variance of the number of ‘e’/‘E’s are roughly similar by plotting all of the data. The mean, in pink, is 6.9, and the variance, in blue, is 5.8. They are not exactly the same; however, they are similar. 
+
+The diagonal in Figure 2 helps visualize the data. If the data were found on the y = x line, then on average, there would be one ‘e’/‘E’ per word; however, Figure 2 demonstrates that most of the data points are found below the line. Thus, on average, there is less than one ‘e’/‘E’ per word.
 
 
 ```{r}
-#| label: fig-agegroupavg
-#| fig-cap: "The average of all shelter visitors in each age group over 6 years from 2018 to 2023"
+#| label: fig-distributione
+#| fig-cap: "Distribution of the number of e/Es"
 #| echo: false
 #| warning: false
 #| message: false
+
+frankenstein_reduced <- read_csv("../data/analysis_data/frankenstein.csv")
+
+mean_e <- mean(frankenstein_reduced$count_e)
+variance_e <- var(frankenstein_reduced$count_e)
+
+frankenstein_reduced |>
+  ggplot(aes(x = count_e)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean_e, 
+             linetype = "dashed", 
+             color = "#C64191") +
+  geom_vline(xintercept = variance_e, 
+             linetype = "dashed", 
+             color = "#0ABAB5") +
+  theme_minimal() +
+  labs(
+    y = "Count",
+    x = "Number of e's per line for first ten lines"
+  )
 ```
 
+```{r}
+#| label: fig-comparisone
+#| fig-cap: "Comparison of the number of e/Es in the line and the number of words in the line"
+#| echo: false
+#| warning: false
+#| message: false
 
-# Data {#sec-data}
-
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
-
-
-
-
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-
-
-Talk way more about it. 
-
+frankenstein_reduced |>
+  ggplot(aes(x = word_count, y = count_e)) +
+  geom_jitter(alpha = 0.5) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  theme_minimal() +
+  labs(
+    x = "Number of words in the line",
+    y = "Number of e/Es in the line"
+  )
+```
 
 
 # Model
 
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
+The goal of our modelling strategy is to utilize the Poisson distribution to build a Poisson regression model as our data is concerned with count data and $\lambda$ distributes probabilities over non-negative integers.
 
 ## Model set-up
 
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
+Define $y_i$ as the number of 'e'/'E's in the line and the explanatory variable as the number of words in the line.
 
 \begin{align} 
-y_i|\mu_i &\sim \mbox{Poisson}(\mu_i) \\
-\mbox{log}(\mu_i) &= \beta_0 + \beta_1 x Number of Words_i\\
+y_i|\lambda_i &\sim \mbox{Poisson}(\lambda_i) \\
+\mbox{log}(\lambda_i) &= \beta_0 + \beta_1 \times \mbox{Number } \mbox{of } \mbox{Words}_i\\
 \beta_0 &\sim \mbox{Normal}(0, 2.5) \\
 \beta_1 &\sim \mbox{Normal}(0, 2.5) \\
 \end{align}
 
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
-
+I run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
 
 ### Model justification
 
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
+I expect a positive relationship between the number of 'e'/'E's in the line and the number of words in the line. This draws from the study investigating the occurrences of letters in words in the Concise Oxford Dictionary’s (9th edition, 1995) main entries as it found that the letter ‘e’/‘E’ appears 11.1607% of the time in all words, the highest frequency out of the entire English alphabet. Thus, as the number of words in a line increases, I expect the number of ‘e’/‘E’s to increase as well.
 
 # Results
 
-Our results are summarized in @tbl-modelresults.
-
 ```{r}
 #| echo: false
-#| eval: true
 #| warning: false
 #| message: false
+#| eval: true
 
 library(rstanarm)
 
@@ -98,10 +134,10 @@ first_model <-
 
 ```{r}
 #| echo: false
-#| eval: true
 #| label: tbl-modelresults
 #| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
 #| warning: false
+#| eval: true
 
 modelsummary::modelsummary(
   list(
@@ -114,10 +150,10 @@ modelsummary::modelsummary(
 
 ```{r}
 #| echo: false
-#| eval: true
 #| label: fig-modelresultsfig
 #| fig-cap: "Explanatory models of flight time based on wing width and wing length"
 #| warning: false
+#| eval: true
 
 library(marginaleffects)
 
