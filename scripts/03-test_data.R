@@ -1,15 +1,25 @@
 #### Preamble ####
-# Purpose: Tests... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Tests the cleaned text data for Frankenstein by Mary Shelley.
+# Author: Irene Huynh
+# Date: 16 March 2023
+# Contact: irene.huynh@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
 
 
 #### Workspace setup ####
 library(tidyverse)
-# [...UPDATE THIS...]
 
 #### Test data ####
+
+frankenstein_test <- read.csv("data/analysis_data/frankenstein.csv")
+
+# Checking that there are exactly 23 chapters
+(frankenstein_test$chapter |> length())/10 == 23
+
+# Checking the classes of the columns
+frankenstein_test$chapter |> class() == 'integer'
+frankenstein_test$count_e |> class() == 'integer'
+frankenstein_test$word_count |> class() == 'integer'
+
+# Checking that each line has at least one word
+frankenstein_test$word_count > 0

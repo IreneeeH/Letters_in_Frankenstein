@@ -1,44 +1,52 @@
 #### Preamble ####
-# Purpose: Cleans the raw plane data recorded by two observers..... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 6 April 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Cleans the raw csv data of text from Frankenstein by Mary Shelley.
+# Author: Irene Huynh
+# Date: 16 March 2023
+# Contact: irene.huynh@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+
 
 #### Workspace setup ####
 library(tidyverse)
 
 #### Clean data ####
-raw_data <- read_csv("inputs/data/plane_data.csv")
+frankenstein <- read_csv(
+  "data/raw_data/frankenstein.csv",
+  col_types = cols(
+    gutenberg_id = col_integer(),
+    text = col_character()
+  )
+)
 
-cleaned_data <-
-  raw_data |>
-  janitor::clean_names() |>
-  select(wing_width_mm, wing_length_mm, flying_time_sec_first_timer) |>
-  filter(wing_width_mm != "caw") |>
+frankenstein_reduced <-
+  frankenstein |>
+  filter(!is.na(text)) |> # Remove empty lines
+  filter(!grepl("\\*", text)) |> # Remove lines that only consist of asterisks
+  mutate(chapter = if_else(str_detect(text, "CHAPTER") == TRUE,
+                           text,
+                           NA_character_)) |> # Find start of chapter
+  fill(chapter, .direction = "down") |> 
+  mutate(chapter_line = row_number(), 
+         .by = chapter) |> # Add line number to each chapter
+  filter(!is.na(chapter), 
+         chapter_line %in% c(2:11)) |> # Remove "CHAPTER I." etc
+  select(text, chapter) |>
   mutate(
-    flying_time_sec_first_timer = if_else(flying_time_sec_first_timer == "1,35",
-                                   "1.35",
-                                   flying_time_sec_first_timer)
+    # Currently each chapter heading looks like "CHAPTER I."
+    # Need to remove "CHAPTER" and the period at the end, and convert the roman 
+    # numeral to an integer to get the chapter number
+    chapter = str_remove(chapter, "CHAPTER "),
+    chapter = str_remove_all(chapter, "\\."),
+    chapter = as.integer(as.roman(chapter))
   ) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "490",
-                                 "49",
-                                 wing_width_mm)) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "6",
-                                 "60",
-                                 wing_width_mm)) |>
-  mutate(
-    wing_width_mm = as.numeric(wing_width_mm),
-    wing_length_mm = as.numeric(wing_length_mm),
-    flying_time_sec_first_timer = as.numeric(flying_time_sec_first_timer)
-  ) |>
-  rename(flying_time = flying_time_sec_first_timer,
-         width = wing_width_mm,
-         length = wing_length_mm
-         ) |> 
-  tidyr::drop_na()
+  mutate(count_e = str_count(text, "e|E"),
+         word_count = str_count(text, "\\w+")
+         # From: https://stackoverflow.com/a/38058033
+  ) 
+
+frankenstein_reduced |>
+  select(chapter, word_count, count_e, text) |>
+  head()
 
 #### Save data ####
-write_csv(cleaned_data, "outputs/data/analysis_data.csv")
+write_csv(frankenstein_reduced, "data/analysis_data/frankenstein.csv")
