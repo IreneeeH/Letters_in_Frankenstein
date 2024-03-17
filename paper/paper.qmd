@@ -1,11 +1,11 @@
 ---
-title: "An Analysis of the distribution of the letter 'e'/'E' in Mary Shelley's Frankenstein"
+title: "An Analysis of the Distribution of the Letter e/E in Mary Shelley's Frankenstein"
 author: 
   - Irene Huynh
-thanks: "Code and data are available at: LINK."
-date: today
+thanks: "Code and data are available at: https://github.com/IreneeeH/Letters_in_Frankenstein.git"
+date: March 16, 2024
 date-format: long
-abstract: "This paper analyzes the frequency and distribution of the letter 'e'/'E' in the English literature classic, Frankenstein by Mary Shelley. Utilizing data from Project Gutenberg, the study examines the occurrences of the letter 'e'/'E' in the first ten lines of each chapter to gauge whether the amount of 'e'/'E's found in the text increases as more words are used. I find that the letter 'e'/'E' usage does increase as the number of words increase. Our findings and methodologies may be employed by linguists to build on or corroborate existing data on letter frequency in the English language, by cryptographers to aid in the deciphering of classical or simple substitution ciphers, and by keyboard designers."
+abstract: "This paper analyzes the distribution of the letter e/E in the English literature classic, Frankenstein by Mary Shelley. Utilizing data from Project Gutenberg, the study examines the occurrences of the letter e/E in the first ten lines of each chapter to gauge whether the amount of e/E's found in the text increases as more words are used. The study finds that the letter e/E usage does increase as the number of words increase. My findings and methodologies may be employed by linguists to build on or corroborate existing data on letter frequency in the English language, by cryptographers to aid in the deciphering of classical or simple substitution ciphers, and by keyboard designers."
 format: 
   pdf:
     fig-pos: 'H'
@@ -27,14 +27,14 @@ library(tidyverse)
 
 # Introduction
 
-Frankenstein by Mary Shelley combines Gothic horror story and science fiction elements to chronicle the life of Victor Frankenstein and his monstrous creation. The novel was first released in 1818 to unfavorable critiques, but has since solidified itself as a cult classic in literature and icon in pop culture [@InitialReception]. This drastic change in reception is on account of Universal Studios' 1931 horror film adaptation of the novel, bringing Frankenstein's monster to life [@Popularity]. The film's depiction of the creature with bolts protruding from its neck and a square-shaped head continues to be one of the most recognizable movie monsters [@Popularity]. According to Penguin Random House, the top publishing company as of 2024, Mary Shelley's Frankenstein is one of the top twenty must-read classics, as chosen by their readers [@Penguin]. Thus, analyzing this text can be of great use for studying the English language.
+Frankenstein by Mary Shelley combines Gothic horror story and science fiction elements to chronicle the life of Victor Frankenstein and his monstrous creation. The novel was first released in 1818 to unfavorable critiques, but has since solidified itself as a cult classic in literature and icon in pop culture [@InitialReception]. This drastic change in perception is on account of Universal Studios’ 1931 horror film adaptation of the novel, bringing Frankenstein’s monster to life [@Popularity]. The film’s depiction of the creature with bolts protruding from its neck and a square-shaped head continues to be one of the most recognizable movie monsters [@Popularity]. According to Penguin Random House, the top publishing company as of 2024, Mary Shelley’s Frankenstein is one of the top twenty must-read classics, as chosen by their readers [@Penguin]. Thus, analyzing this text can be of great use for studying the English language.
 
-The English language has evolved a great deal over centuries and investigating its evolution can give insight into the people who use it. Linguists are concerned with studying languages as a science; they observe and listen to speakers, conduct experiments, and perform analyses of languages to investigate the properties and characteristics of particular languages [@Linguists]. Linguists may study the frequency of letter usage for a basic understanding of the particular writing system adopted by a language, whether it be syllabic, ideographic, or alphabetic [@Linguists]. According to a study analyzing the occurrences of letters in words in the Concise Oxford Dictionary's (9th edition, 1995) main entries, the letter 'e'/'E' appears 11.1607% of the time in all words, the highest frequency out of the entire English alphabet [@EFrequency]. The frequency of letters may vary from language to language and such information is of interest to cryptographers, keyboard designers, and alphabet-based game creators [@LetterAnalysis]. Cryptographers use letter frequency data to break classical or simple substitution ciphers [@Cipher]. By being cognizant of the frequency of letters in a particular language, cryptographers can correlate the distribution of letters in the substituted cipher with the actual distribution of letters in the language to ultimately match each letter with its substitute and break the cipher [@Cipher]. Moreover, keyboard designers rely on the frequency of letters to determine the location of keys on the keyboard [@LetterAnalysis]. 
+The English language has evolved a great deal over centuries and investigating its evolution can give insight into the people who use it. Linguists are concerned with studying languages as a science; they observe and listen to speakers, conduct experiments, and perform analyses of languages to investigate the properties and characteristics of particular languages [@Linguists]. Linguists may study the frequency of letter usage for a basic understanding of the particular writing system adopted by a language, whether it be syllabic, ideographic, or alphabetic [@Linguists]. According to a study analyzing the occurrences of letters in words in the Concise Oxford Dictionary’s (9th edition, 1995) main entries, the letter e/E appears 11.1607% of the time in all words, the highest frequency out of the entire English alphabet [@EFrequency]. The frequency of letters may vary from language to language and such information is of interest to cryptographers, keyboard designers, and alphabet-based game creators [@LetterAnalysis]. Cryptographers use letter frequency data to break classical or simple substitution ciphers [@Cipher]. By being cognizant of the frequency of letters in a particular language, cryptographers can correlate the distribution of letters in the substituted cipher with the actual distribution of letters in the language to ultimately match each letter with its substitute and break the cipher [@Cipher]. Moreover, keyboard designers rely on the frequency of letters to determine the location of keys on the keyboard [@LetterAnalysis]. 
 
-In this paper, I analyze the frequency of the letter 'e'/'E' and the number of words in the first ten lines of each chapter in Mary Shelley's Frankenstein to produce a predictive model that determines whether the number of 'e'/'E's increase as more words are used. The estimand for this study is the effect of the number of words used on the number of times 'e'/'E' appears. This study finds that as the number of words used increases, the frequency of the letter 'e'/'E' also increases. 
+In this paper, I analyze the frequency of the letter e/E and the number of words in the first ten lines of each chapter in Mary Shelley’s Frankenstein to produce a predictive model that determines whether the number of e/E's increase as more words are used. The estimand for this study is the effect of the number of words used on the number of times e/E appears. This study finds that as the number of words used increases, the frequency of the letter e/E also increases.
 
 The remainder of this paper is structured as follows: the Data section details the collection
-and processing of Mary Shelley's Frankenstein text data. Additionally, the section includes discussion on the measurement of the original dataset. The following Results section displays and analyzes tables and figures that model the data. The Discussion section draws conclusions from those tables and figures and details the importance of my findings and weaknesses of the paper.
+and processing of Mary Shelley’s Frankenstein text data. Additionally, the section includes discussion on the measurement of the original dataset and the variables examined in this study. The following Models section discusses the regression model used and the Results section displays the tables and figures that model the data. The Discussion section draws conclusions from those tables and figures and details the importance of my findings and weaknesses of the paper.
 
 
 # Data
@@ -46,16 +46,16 @@ The data utilized in this paper was retrieved from Project Gutenberg [@ProjectGu
 The original data set was retrieved from Project Gutenberg [@ProjectGutenberg], which is a reliable and reputable source for eBooks and other electronic texts. As the data I am concerned with was collected and cataloged from an existing novel of text, there is a low possibility for measurement error; however, possible avenues for the introduction of errors would be in the archiving of the novel by software bugs or technological malfunctions. Additionally, the digitized copy of Frankenstein was last updated in 2022 by Project Gutenberg. Considering that digital book scanning software as of recent years is considered highly sophisticated [@Digitalize] and that Project Gutenberg has digitized over 70,000 books, the quality of the data used in this study is reliable.
 
 ## Examined Variables
-The original data set consists of all text in Mary Shelley’s Frankenstein, including the title page, preface text, and inclusions such as letters. The main variable of interest is the frequency of the letter ‘e’/‘E’ in the novel. An analysis using each line in the entire novel would be ideal; however, such a task would be cumbersome. Thus, I will only focus on the frequency of the letter ‘e’/‘E’ in the first ten lines of each chapter. 
+The original data set consists of all text in Mary Shelley’s Frankenstein, including the title page, preface text, and inclusions, such as letters. The main variable of interest is the frequency of the letter e/E in the novel. An analysis using each line in the entire novel would be ideal; however, such a task would be cumbersome. Thus, I will only focus on the frequency of the letter e/E in the first ten lines of each chapter. 
 
-@fig-distributione verifies that the mean and variance of the number of ‘e’/‘E’s are roughly similar by plotting all of the data. The mean, in pink, is 6.9, and the variance, in blue, is 5.8. They are not exactly the same; however, they are similar. 
+@fig-distributione verifies that the mean and variance of the number of e/E's are roughly similar by plotting all of the data. The mean, in pink, is 6.9, and the variance, in blue, is 5.8. They are not exactly the same; however, they are similar. 
 
-The diagonal in @fig-comparisone helps visualize the data. If the data were found on the y = x line, then on average, there would be one ‘e’/‘E’ per word; however, @fig-comparisone demonstrates that most of the data points are found below the line. Thus, on average, there is less than one ‘e’/‘E’ per word.
+The diagonal in @fig-comparisone helps visualize the data. If the data were found on the y = x line, then on average, there would be one e/E per word; however, @fig-comparisone demonstrates that most of the data points are found below the line. Thus, on average, there is less than one e/E per word.
 
 
 ```{r}
 #| label: fig-distributione
-#| fig-cap: "Distribution of the number of e/Es"
+#| fig-cap: "Distribution of the number of e/E's"
 #| echo: false
 #| warning: false
 #| message: false
@@ -85,7 +85,7 @@ frankenstein_reduced |>
 
 ```{r}
 #| label: fig-comparisone
-#| fig-cap: "Comparison of the number of e/Es in the line and the number of words in the line"
+#| fig-cap: "Comparison of the number of e/E's in the line and the number of words in the line"
 #| echo: false
 #| warning: false
 #| message: false
@@ -97,18 +97,18 @@ frankenstein_reduced |>
   theme_minimal() +
   labs(
     x = "Number of words in the line",
-    y = "Number of e/Es in the line"
+    y = "Number of e/E's in the line"
   )
 ```
 
 
 # Model
 
-The goal of our modelling strategy is to utilize the Poisson distribution to build a Poisson regression model as our data is concerned with count data and $\lambda$ distributes probabilities over non-negative integers.
+The goal of my modelling strategy is to utilize the Poisson distribution to build a Poisson regression model as the data is concerned with count data and $\lambda$ distributes probabilities over non-negative integers.
 
 ## Model set-up
 
-Define $y_i$ as the number of 'e'/'E's in the line and the explanatory variable as the number of words in the line.
+Define $y_i$ as the number of e/E's in the line and the explanatory variable as the number of words in the line.
 
 \begin{align} 
 y_i|\lambda_i &\sim \mbox{Poisson}(\lambda_i) \\
@@ -117,11 +117,11 @@ y_i|\lambda_i &\sim \mbox{Poisson}(\lambda_i) \\
 \beta_1 &\sim \mbox{Normal}(0, 2.5) \\
 \end{align}
 
-I run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
+I run the model in R [@citeR] using the `rstanarm` package of @rstanarm. I use the default priors from `rstanarm`.
 
 ### Model justification
 
-I expect a positive relationship between the number of 'e'/'E's in the line and the number of words in the line. This draws from the study investigating the occurrences of letters in words in the Concise Oxford Dictionary's (9th edition, 1995) main entries as it found that the letter 'e'/'E' appears 11.1607% of the time in all words, the highest frequency out of the entire English alphabet. Thus, as the number of words in a line increases, I expect the number of 'e'/'E's to increase as well.
+I expect a positive relationship between the number of e/E's in the line and the number of words in the line. This draws from the study investigating the occurrences of letters in words in the Concise Oxford Dictionary’s (9th edition, 1995) main entries as it found that the letter e/E appears 11.1607% of the time in all words, the highest frequency out of the entire English alphabet [@EFrequency]. Thus, as the number of words in a line increases, I expect the number of e/E's to increase as well.
 
 
 # Results
@@ -140,7 +140,7 @@ first_model <-
 
 ```{r}
 #| label: tbl-modelresults
-#| tbl-cap: "Examining the number of 'e'/'E's as the number of words increase"
+#| tbl-cap: "Examining the number of e/E's as the number of words increase"
 #| tbl-pos: H
 #| echo: false
 #| warning: false
@@ -157,7 +157,7 @@ modelsummary::modelsummary(
 
 ```{r}
 #| label: fig-modelresultsfig
-#| fig-cap: "The predicted number of 'e'/'E's in each line based on the number of words"
+#| fig-cap: "The predicted number of e/E's in each line based on the number of words"
 #| echo: false
 #| warning: false
 #| eval: true
@@ -166,27 +166,22 @@ library(marginaleffects)
 
 plot_predictions(first_model, condition = "word_count") +
   labs(x = "Number of words",
-       y = "Average number of e/Es in the first 10 lines") +
+       y = "Average number of e/E's in the first 10 lines") +
   theme_classic()
 ```
 
-@tbl-modelresults demonstrates what was expected: there is a positive relationship between the number ‘e’/‘E’s in the first ten lines and the number of words in the line. @fig-modelresultsfig further illustrates this and makes clear the correlation between the variables.
+@tbl-modelresults demonstrates what was expected: there is a positive relationship between the number e/E's in the first ten lines and the number of words in the line. @fig-modelresultsfig further illustrates this and makes clear the correlation between the variables.
 
 # Discussion
 
 ## Findings
-The analysis conducted in this study found that as the number of words increases, the number of occurrences of the letter ‘e’/‘E’ increases as well. These findings were expected considering that the letter ‘e’/‘E’ is the most used letter in the English alphabet [@EFrequency]. 
+This study utilized a Poisson regression model to predict the distribution of the letter e/E in Mary Shelley’s Frankenstein. The analysis conducted in this study found that as the number of words in each line increases, the number of occurrences of the letter e/E increases as well. These findings are expected considering that the letter e/E is the most used letter in the English alphabet [@EFrequency]. 
 
 ## Importance
+The study of languages is a critical field for understanding the histories and societies of the people that use them. Several fields of research may find this study useful, including computational linguistics and historical linguistics. Historical linguists may use this study for archival documentation and for corroborating existing English alphabet frequencies. Moreover, computational linguists may find this study particularly useful for training systems, such as spell checking software that can recognize that the letter e/E is the most used letter in the alphabet; hence, writers are more likely to use words with it. Applying the methodologies of this study to larger data sets can reveal possible novel distributions of letter frequencies in the English alphabet. Considering that the vocabulary of English speakers constantly grows and that the source of language evolution is pioneered by the younger generations, such discoveries in letter frequencies are highly likely [@LanguageEvolve]. This study and future studies of letter frequency in different languages may also be of interest to fields unrelated to linguistics, such as keyboard designers. Keyboard designers seek to configure keyboards that provide the most efficient and optimal experience, whereby keys are located appropriately by considering characteristics of the target language. For instance, English, Chinese, Spanish, German, and French were all languages that the English on-screen keyboard optimized for [@LetterAnalysis].
 
-
-## Weaknesses
-
-## Future Proceedings
-
-## Weaknesses and next steps
-
-Weaknesses and next steps should also be included.
+## Weaknesses and Future Proceedings
+Although this paper yielded expected results, the analysis was only conducted on the first ten lines of each chapter in Mary Shelley’s Frankenstein. For a more comprehensive and thorough study of the effect of the number of words on the frequency of the letter e/E in the text, an analysis of the entire text would be ideal, excluding title pages and author and publisher notes. Additionally, the count for the letter e/E consisted of every occurrence of e/E within the first ten lines of each chapter, including pronouns. This is not to say that pronouns are not words, but rather novels with particular pronouns, such as fictional names and places, that consist of many e/E's may impact the distribution of the letter e/E and provide an inaccurate letter frequency in the language that is to be used in fields such as linguistics. For instance, “Frankenstein” itself has two e's in its name. Furthermore, in future studies of letter frequency, an analysis of the number of e/E's should be conducted on translated works of Mary Shelley’s Frankenstein to compare letter frequencies of different languages. Additionally, the letter frequency of the entire alphabet can be explored to provide substantial data for usage in fields such as linguistics, cryptography, and keyboard designs.
 
 
 \newpage
