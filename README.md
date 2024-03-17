@@ -1,4 +1,4 @@
-# The Frequency of the Letter e/E in Mary Shelley's Frankenstein
+# The Distribution of the Letter e/E in Mary Shelley's Frankenstein
 
 ## Overview
 
